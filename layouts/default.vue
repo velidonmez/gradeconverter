@@ -72,6 +72,11 @@ export default {
           icon: 'mdi-clipboard-list',
           title: 'Listele',
           to: '/listele'
+        },
+        {
+          icon: 'mdi-clipboard-list',
+          title: 'Ayarlar',
+          to: '/ayarlar'
         }
       ],
       miniVariant: false,

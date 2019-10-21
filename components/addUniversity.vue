@@ -94,6 +94,12 @@
 </template>
 <script>
 export default {
+  props: {
+    dataset: {
+      type: Array,
+      required: false
+    }
+  },
   data () {
     return {
       valid: false,
@@ -130,6 +136,11 @@ export default {
         harfAraliklari: []
       }
     }
+  },
+  created () {
+    console.log(this.dataset)
+    // this.form.universiteAdi = this.dataset[0].okul_adi
+    // this.form.harfAraliklari = this.dataset[0].harf_araliklari
   },
   methods: {
     editItem (item) {

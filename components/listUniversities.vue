@@ -71,21 +71,19 @@
 </template>
 <script>
 export default {
+  props: {
+    dataset: {
+      type: Array,
+      required: true
+    },
+    headers: {
+      type: Array,
+      required: true
+    }
+  },
   data () {
     return {
       dialog: false,
-      dataset: [],
-      headers: [
-        { text: 'Id', value: 'id' },
-        {
-          text: 'Okul Adı',
-          align: 'left',
-          value: 'okul_adi'
-        },
-        { text: 'Güncellenme Tarihi', value: 'date_time' },
-        { text: '', value: 'data-table-expand' },
-        { text: 'İşlemler', value: 'action', sortable: false }
-      ],
       itemDetails: [],
       editedIndex: -1,
       editedItem: {
@@ -96,11 +94,7 @@ export default {
       }
     }
   },
-  async created () {
-    await this.$axios.post('/university').then((res) => {
-      this.dataset = res.data.response
-    })
-  },
+
   methods: {
     editItem (item) {
       this.editedIndex = this.dataset.indexOf(item)
