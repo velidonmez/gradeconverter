@@ -5,7 +5,7 @@
     align-center
   >
     <v-flex>
-      <list-universities :dataset="dataset" :headers="headers" />
+      <list-universities :dataset="dataset" :options="{title:'Üniversiteler',tableHeaders:headers,type:'uniList'}" />
     </v-flex>
   </v-layout>
 </template>

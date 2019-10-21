@@ -15,20 +15,20 @@
         >
           Üsküdar Üniversitesi Not Sistemi
         </v-tab>
-        <!--        <v-tab-->
-        <!--          v-model="tab"-->
-        <!--          background-color="deep-purple accent-4"-->
-        <!--          class="elevation-2"-->
-        <!--          dark-->
-        <!--        >-->
-        <!--          Taslak Ekle veya Düzenle-->
-        <!--        </v-tab>-->
+        <v-tab
+          v-model="tab"
+          background-color="deep-purple accent-4"
+          class="elevation-2"
+          dark
+        >
+          Taslak Ekle veya Düzenle
+        </v-tab>
         <v-tab-item>
-          <add-university :dataset="dataset" />
+          <add-university :dataset="editUU" />
         </v-tab-item>
-        <!--        <v-tab-item>-->
-        <!--          <list-universities :dataset="dataset" />-->
-        <!--        </v-tab-item>-->
+        <v-tab-item>
+          <list-universities :dataset="editDrafts" :options="{title:'Taslaklar',tableHeaders:headers,type:'template'}" />
+        </v-tab-item>
       </v-tabs>
     </v-flex>
   </v-layout>
@@ -36,17 +36,29 @@
 
 <script>
 import addUniversity from '../components/addUniversity'
-// import listUniversities from '../components/listUniversities'
+import listUniversities from '../components/listUniversities'
 export default {
   components: {
-    addUniversity
-    // listUniversities
+    addUniversity,
+    listUniversities
   },
   data () {
     return {
-      dataset: [],
+      editUU: [],
+      editDrafts: [],
       dateTime: '',
       grades: [],
+      headers: [
+        { text: 'Id', value: 'id' },
+        {
+          text: 'Taslak Adı',
+          align: 'left',
+          value: 'name'
+        },
+        { text: 'Güncellenme Tarihi', value: 'date_time' },
+        { text: '', value: 'data-table-expand' },
+        { text: 'İşlemler', value: 'action', sortable: false }
+      ],
       tab: null,
       editedItem: {
         harf_araliklari: [],
@@ -56,9 +68,14 @@ export default {
       }
     }
   },
-  async created () {
-    await this.update()
-    console.log(this.dataset)
+  async asyncData ({ $axios }) {
+    const uuGrades = await $axios.post('/uuGradeSystem')
+    const gradeTemplates = await $axios.post('/gradeTemplates')
+    console.log({ 'template': gradeTemplates.data.response })
+    return {
+      editUU: uuGrades.data.response,
+      editDrafts: gradeTemplates.data.response
+    }
   },
   methods: {
     async update () {

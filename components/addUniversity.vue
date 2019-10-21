@@ -138,9 +138,10 @@ export default {
     }
   },
   created () {
-    console.log(this.dataset)
-    // this.form.universiteAdi = this.dataset[0].okul_adi
-    // this.form.harfAraliklari = this.dataset[0].harf_araliklari
+    if (this.dataset) {
+      this.form.universiteAdi = this.dataset[0].okul_adi
+      this.form.harfAraliklari = JSON.parse(this.dataset[0].harf_araliklari)
+    }
   },
   methods: {
     editItem (item) {

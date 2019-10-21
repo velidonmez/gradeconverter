@@ -106,6 +106,21 @@ app.post('/updateUUGradeSystem', async (req, res) => {
   })
 })
 
+app.post('/gradeTemplates', async (req, res) => {
+  const sql = 'SELECT * FROM grading_template'
+  await connection.query(sql, (err, result, fields) => {
+    if (err) { throw err }
+    res.status(200).json(createResponse(true, result))
+  })
+})
+app.post('/updateGradeTemplate', async (req, res) => {
+  const data = req.body.dataset
+  const sql = `UPDATE grading_template SET okul_adi = '${data.okul_adi}',harf_araliklari = '${data.harf_araliklari}',date_time = CURRENT_TIME() WHERE id = '${data.id}'`
+  await connection.query(sql, (err, result) => {
+    if (err) { throw err }
+    res.status(200).json(createResponse(true, result))
+  })
+})
 module.exports = {
   path: '/api',
   handler: app
