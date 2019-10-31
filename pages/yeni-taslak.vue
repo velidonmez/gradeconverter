@@ -4,13 +4,13 @@
     justify-center
     align-center
   >
-    <title-bar title="Yeni Üniversite Ekle" />
+    <title-bar title="Taslak Ekle" />
     <v-flex
       xs12
       sm8
       md6
     >
-      <add-university :dataset="dataset" :options="{title:'Yeni Üniversite Ekle',label:'Üniversite Adı',type:'addNewUni'}" />
+      <add-university :dataset="dataset" :options="{title:'Yeni Taslak Ekle',label:'Taslak Adı', type:'addTemplate'}" />
     </v-flex>
   </v-layout>
 </template>

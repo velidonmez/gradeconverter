@@ -10,14 +10,14 @@
           <v-form v-model="valid">
             <v-layout column>
               <v-card-title class="title">
-                Yeni Üniversite Bilgileri:
+                {{ options.title }}
               </v-card-title>
               <v-text-field
                 v-model="form.universiteAdi"
                 :rules="uniRules"
                 class="mx-2"
                 outlined
-                label="Üniversite Adı"
+                :label="options.label"
                 required
                 autocomplete="off"
               />
@@ -98,6 +98,10 @@ export default {
     dataset: {
       type: Array,
       required: false
+    },
+    options: {
+      type: Object,
+      required: true
     }
   },
   data () {
@@ -138,7 +142,7 @@ export default {
     }
   },
   created () {
-    if (this.dataset) {
+    if (this.options.type === 'settings') {
       this.form.universiteAdi = this.dataset[0].okul_adi
       this.form.harfAraliklari = JSON.parse(this.dataset[0].harf_araliklari)
     }
@@ -172,13 +176,30 @@ export default {
       this.form.harfAraliklari = []
       this.form.universiteAdi = ''
     },
-    submitToDb () {
-      this.$axios.post('/insertUniData', {
-        okulAdi: this.form.universiteAdi,
-        harfAraliklari: JSON.stringify(this.form.harfAraliklari)
-      }).then((res) => {
-        this.clearTable()
-      })
+    async submitToDb () {
+      if (this.options.type === 'settings') {
+        await this.$axios.post('/updateUUGradeSystem', {
+          dataset: {
+            okul_adi: this.form.universiteAdi,
+            harf_araliklari: JSON.stringify(this.form.harfAraliklari),
+            id: this.dataset[0].id
+          }
+        })
+      } else if (this.options.type === 'addNewUni') {
+        await this.$axios.post('/insertUniData', {
+          okulAdi: this.form.universiteAdi,
+          harfAraliklari: JSON.stringify(this.form.harfAraliklari)
+        }).then((res) => {
+          this.clearTable()
+        })
+      } else if (this.options.type === 'addTemplate') {
+        await this.$axios.post('/insertUUGrades', {
+          okulAdi: this.form.universiteAdi,
+          harfAraliklari: JSON.stringify(this.form.harfAraliklari)
+        }).then((res) => {
+          this.clearTable()
+        })
+      }
     }
   }
 }

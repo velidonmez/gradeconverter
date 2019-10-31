@@ -12,7 +12,7 @@
         <v-spacer />
         <v-dialog v-model="dialog" max-width="500px">
           <template v-slot:activator="{ on }">
-            <v-btn color="primary" dark class="mb-2" nuxt to="/yeni">
+            <v-btn color="primary" dark class="mb-2" nuxt :to="options.type === 'uniList'?'/yeni':'/yeni-taslak'">
               Yeni
             </v-btn>
           </template>
@@ -63,9 +63,26 @@
         mdi-delete
       </v-icon>
     </template>
-    <!--        todo: json düzenlenecek-->
-    <template v-slot:expanded-item="{ item }">
-      {{ item.harf_araliklari }}
+    <!--        todo: tabloda tasarım düzenlenecek-->
+    <template v-slot:expanded-item="{ headers,item }">
+      <v-simple-table dense height="200" class="d-flex flex-column ma-2 pa-2">
+        <thead>
+          <tr>
+            <th class="text-left">
+              Harf Notu
+            </th>
+            <th class="text-left">
+              Katsayı
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="item in JSON.parse(item.harf_araliklari)" :key="item.name">
+            <td>{{ item.harf }}</td>
+            <td>{{ item.value }}</td>
+          </tr>
+        </tbody>
+      </v-simple-table>
     </template>
   </v-data-table>
 </template>
@@ -96,6 +113,9 @@ export default {
   },
 
   methods: {
+    test () {
+      console.log('dfdfdf')
+    },
     editItem (item) {
       this.editedIndex = this.dataset.indexOf(item)
       item.harf_araliklari = JSON.parse(item.harf_araliklari)

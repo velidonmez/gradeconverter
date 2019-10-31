@@ -4,6 +4,18 @@
     justify-center
     align-center
   >
+    <v-app-bar
+      app
+      elevation="0"
+      height="75px"
+      class="appBar"
+      color="primary"
+    >
+      <v-toolbar-title>
+        Ana Sayfa
+      </v-toolbar-title>
+    </v-app-bar>
+
     <v-flex
       xs12
       sm8

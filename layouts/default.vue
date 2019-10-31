@@ -25,17 +25,6 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <v-app-bar
-      app
-      elevation="0"
-      height="75px"
-      class="appBar"
-      color="primary"
-    >
-      <v-toolbar-title>
-        Yeni Üniversite Ekle
-      </v-toolbar-title>
-    </v-app-bar>
     <v-content>
       <v-container>
         <nuxt />

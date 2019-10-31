@@ -74,7 +74,6 @@ app.post('/updateUniData', async (req, res) => {
 app.post('/deleteUniData', async (req, res) => {
   const data = req.body.dataset
   const sql = `DELETE FROM universite WHERE id = '${data.id}'`
-  console.log(sql)
   await connection.query(sql, (err, result) => {
     if (err) { throw err }
     res.status(200).json(createResponse(true, result))
@@ -99,6 +98,7 @@ app.post('/uuGradeSystem', async (req, res) => {
 
 app.post('/updateUUGradeSystem', async (req, res) => {
   const data = req.body.dataset
+  console.log(data)
   const sql = `UPDATE uu_grading_system SET okul_adi = '${data.okul_adi}',harf_araliklari = '${data.harf_araliklari}',date_time = CURRENT_TIME() WHERE id = '${data.id}'`
   await connection.query(sql, (err, result) => {
     if (err) { throw err }
@@ -113,6 +113,15 @@ app.post('/gradeTemplates', async (req, res) => {
     res.status(200).json(createResponse(true, result))
   })
 })
+
+app.post('/insertGradeTemplates', async (req, res) => {
+  const sql = 'SELECT * FROM grading_template'
+  await connection.query(sql, (err, result, fields) => {
+    if (err) { throw err }
+    res.status(200).json(createResponse(true, result))
+  })
+})
+
 app.post('/updateGradeTemplate', async (req, res) => {
   const data = req.body.dataset
   const sql = `UPDATE grading_template SET okul_adi = '${data.okul_adi}',harf_araliklari = '${data.harf_araliklari}',date_time = CURRENT_TIME() WHERE id = '${data.id}'`

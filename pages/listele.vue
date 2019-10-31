@@ -1,34 +1,32 @@
-<template>
-  <v-layout
-    column
-    justify-center
-    align-center
-  >
-    <v-flex>
+<template pageTitle="Tüm Üniversiteler">
+  <div>
+    <title-bar title="Tüm Üniversiteler" />
+    <div class="d-flex justify-center flex-column pa-3 mt-3">
       <list-universities :dataset="dataset" :options="{title:'Üniversiteler',tableHeaders:headers,type:'uniList'}" />
-    </v-flex>
-  </v-layout>
+    </div>
+  </div>
 </template>
 
 <script>
-import listUniversities from '../components/listUniversities'
+import TitleBar from '../components/base/TitleBar'
+import listUniversities from '../components/ListUniversities'
 export default {
   components: {
-    listUniversities
+    listUniversities,
+    TitleBar
   },
   data () {
     return {
       dataset: [],
       headers: [
-        { text: 'Id', value: 'id' },
         {
           text: 'Okul Adı',
           align: 'left',
           value: 'okul_adi'
         },
         { text: 'Güncellenme Tarihi', value: 'date_time' },
-        { text: '', value: 'data-table-expand' },
-        { text: 'İşlemler', value: 'action', sortable: false }
+        { text: 'İşlemler', value: 'action', sortable: false },
+        { text: 'Detay', value: 'data-table-expand' }
       ]
     }
   },

@@ -1,10 +1,7 @@
 <template>
-  <v-layout
-    column
-    justify-center
-    align-center
-  >
-    <v-flex>
+  <div>
+    <title-bar title="Ayarlar" />
+    <div class="d-flex flex-column mt-6">
       <v-tabs>
         <v-tabs-slider />
         <v-tab
@@ -24,23 +21,25 @@
           Taslak Ekle veya Düzenle
         </v-tab>
         <v-tab-item>
-          <add-university :dataset="editUU" />
+          <add-university :dataset="editUU" :options="{title:'Harf Notlarını Düzenle',type:'settings'}" />
         </v-tab-item>
         <v-tab-item>
           <list-universities :dataset="editDrafts" :options="{title:'Taslaklar',tableHeaders:headers,type:'template'}" />
         </v-tab-item>
       </v-tabs>
-    </v-flex>
-  </v-layout>
+    </div>
+  </div>
 </template>
 
 <script>
-import addUniversity from '../components/addUniversity'
-import listUniversities from '../components/listUniversities'
+import addUniversity from '../components/AddUniversity'
+import listUniversities from '../components/ListUniversities'
+import TitleBar from '../components/base/TitleBar'
 export default {
   components: {
     addUniversity,
-    listUniversities
+    listUniversities,
+    TitleBar
   },
   data () {
     return {
