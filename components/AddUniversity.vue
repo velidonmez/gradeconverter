@@ -1,86 +1,83 @@
 <template>
-  <v-card class="pa-3">
-    <v-layout>
-      <v-data-table
-        :disable-pagination="true"
-        :headers="headers"
-        :items="form.harfAraliklari"
-      >
-        <template v-slot:top>
-          <v-form v-model="valid">
-            <v-layout column>
-              <v-card-title class="title">
-                {{ options.title }}
-              </v-card-title>
-              <v-text-field
-                v-model="form.universiteAdi"
-                :rules="uniRules"
-                class="mx-2"
-                outlined
-                :label="options.label"
-                required
-                autocomplete="off"
-              />
-            </v-layout>
-            <v-toolbar flat color="white">
-              <v-toolbar-title class="subtitle-1">
-                Harf Notlarını Ekle
-              </v-toolbar-title>
-              <div class="flex-grow-1" />
-              <v-dialog v-model="dialog" max-width="500px">
-                <template v-slot:activator="{ on }">
-                  <v-btn small color="primary" dark class="mb-2" v-on="on">
-                    Yeni
+  <v-card width="750" class="pa-4">
+    <v-data-table
+      :disable-pagination="true"
+      :headers="headers"
+      :items="form.harfAraliklari"
+    >
+      <template v-slot:top>
+        <v-form v-model="valid">
+          <v-layout column>
+            <v-card-title class="title">
+              {{ options.title }}
+            </v-card-title>
+            <v-text-field
+              v-model="form.universiteAdi"
+              :rules="uniRules"
+              class="mx-2"
+              outlined
+              :label="options.label"
+              required
+              autocomplete="off"
+            />
+          </v-layout>
+          <v-toolbar flat color="white">
+            <v-toolbar-title class="subtitle-1">
+              Harf Notlarını Ekle
+            </v-toolbar-title>
+            <div class="flex-grow-1" />
+            <v-dialog v-model="dialog" max-width="500px">
+              <template v-slot:activator="{ on }">
+                <v-btn small color="primary" dark class="mb-2" v-on="on">
+                  Yeni
+                </v-btn>
+              </template>
+              <v-card>
+                <v-card-title>
+                  <span class="headline">Ekle</span>
+                </v-card-title>
+                <v-card-text>
+                  <v-container>
+                    <v-row>
+                      <v-col cols="12" sm="6" md="4">
+                        <v-text-field v-model="editedItem.harf" required :rules="letterRules" label="Harf Notu" />
+                      </v-col>
+                      <v-col cols="12" sm="6" md="4">
+                        <v-text-field v-model="editedItem.value" required type="number" label="Katsayı" />
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                </v-card-text>
+                <v-card-actions>
+                  <div class="flex-grow-1" />
+                  <v-btn color="blue darken-1" text @click="close">
+                    Cancel
                   </v-btn>
-                </template>
-                <v-card>
-                  <v-card-title>
-                    <span class="headline">Ekle</span>
-                  </v-card-title>
-                  <v-card-text>
-                    <v-container>
-                      <v-row>
-                        <v-col cols="12" sm="6" md="4">
-                          <v-text-field v-model="editedItem.harf" required :rules="letterRules" label="Harf Notu" />
-                        </v-col>
-                        <v-col cols="12" sm="6" md="4">
-                          <v-text-field v-model="editedItem.value" required type="number" label="Katsayı" />
-                        </v-col>
-                      </v-row>
-                    </v-container>
-                  </v-card-text>
-                  <v-card-actions>
-                    <div class="flex-grow-1" />
-                    <v-btn color="blue darken-1" text @click="close">
-                      Cancel
-                    </v-btn>
-                    <v-btn color="blue darken-1" text @click="save">
-                      Save
-                    </v-btn>
-                  </v-card-actions>
-                </v-card>
-              </v-dialog>
-            </v-toolbar>
-          </v-form>
-        </template>
-        <template v-slot:item.action="{ item }">
-          <v-icon
-            small
-            class="mr-2"
-            @click="editItem(item)"
-          >
-            mdi-pencil
-          </v-icon>
-          <v-icon
-            small
-            @click="deleteItem(item)"
-          >
-            mdi-delete
-          </v-icon>
-        </template>
-      </v-data-table>
-    </v-layout>
-
+                  <v-btn color="blue darken-1" text @click="save">
+                    Save
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+          </v-toolbar>
+        </v-form>
+      </template>
+      <template v-slot:item.action="{ item }">
+        <v-icon
+          small
+          class="mr-2"
+          @click="editItem(item)"
+        >
+          mdi-pencil
+        </v-icon>
+        <v-icon
+          small
+          @click="deleteItem(item)"
+        >
+          mdi-delete
+        </v-icon>
+      </template>
+    </v-data-table>
     <v-card-actions>
       <v-spacer />
       <v-btn
@@ -193,8 +190,9 @@ export default {
           this.clearTable()
         })
       } else if (this.options.type === 'addTemplate') {
-        await this.$axios.post('/insertUUGrades', {
-          okulAdi: this.form.universiteAdi,
+        console.log(this.form)
+        await this.$axios.post('/insertGradeTemplate', {
+          name: this.form.universiteAdi,
           harfAraliklari: JSON.stringify(this.form.harfAraliklari)
         }).then((res) => {
           this.clearTable()

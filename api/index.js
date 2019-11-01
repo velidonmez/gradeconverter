@@ -51,6 +51,15 @@ const insert = (table, data, dataId = false) => {
 }
 
 // api
+// CRUD Yeni üniversite bilgileri
+app.post('/university', async (req, res) => {
+  const sql = 'SELECT * FROM universite'
+  await connection.query(sql, (err, result, fields) => {
+    if (err) { throw err }
+    res.status(200).json(createResponse(true, result))
+  })
+})
+
 app.post('/insertUniData', async (req, res) => {
   await insert('universite', {
     okul_adi: req.body.okulAdi,
@@ -79,15 +88,8 @@ app.post('/deleteUniData', async (req, res) => {
     res.status(200).json(createResponse(true, result))
   })
 })
-
-app.post('/university', async (req, res) => {
-  const sql = 'SELECT * FROM universite'
-  await connection.query(sql, (err, result, fields) => {
-    if (err) { throw err }
-    res.status(200).json(createResponse(true, result))
-  })
-})
-
+// -------------------------------------------------------------------------//
+// CRUD uskudar uni not sistemi
 app.post('/uuGradeSystem', async (req, res) => {
   const sql = 'SELECT * FROM uu_grading_system'
   await connection.query(sql, (err, result, fields) => {
@@ -105,7 +107,8 @@ app.post('/updateUUGradeSystem', async (req, res) => {
     res.status(200).json(createResponse(true, result))
   })
 })
-
+// ---------------------------------------------------------------------------------
+// CRUD not taslakları
 app.post('/gradeTemplates', async (req, res) => {
   const sql = 'SELECT * FROM grading_template'
   await connection.query(sql, (err, result, fields) => {
@@ -114,17 +117,29 @@ app.post('/gradeTemplates', async (req, res) => {
   })
 })
 
-app.post('/insertGradeTemplates', async (req, res) => {
-  const sql = 'SELECT * FROM grading_template'
-  await connection.query(sql, (err, result, fields) => {
-    if (err) { throw err }
-    res.status(200).json(createResponse(true, result))
+app.post('/insertGradeTemplate', async (req, res) => {
+  await insert('grading_template', {
+    name: req.body.name,
+    harf_araliklari: req.body.harfAraliklari
+  }).then((res) => {
+    res.status(200).json(createResponse(true, res))
+  }).catch(() => {
+    res.status(200).json(createResponse(false, { msg: 'Invalid Data' }))
   })
 })
 
 app.post('/updateGradeTemplate', async (req, res) => {
   const data = req.body.dataset
   const sql = `UPDATE grading_template SET okul_adi = '${data.okul_adi}',harf_araliklari = '${data.harf_araliklari}',date_time = CURRENT_TIME() WHERE id = '${data.id}'`
+  await connection.query(sql, (err, result) => {
+    if (err) { throw err }
+    res.status(200).json(createResponse(true, result))
+  })
+})
+
+app.post('/deleteGradeTemplate', async (req, res) => {
+  const data = req.body.dataset
+  const sql = `DELETE FROM grading_template WHERE id = '${data.id}'`
   await connection.query(sql, (err, result) => {
     if (err) { throw err }
     res.status(200).json(createResponse(true, result))

@@ -1,18 +1,12 @@
 <template>
-  <v-layout
-    column
-    justify-center
-    align-center
-  >
-    <title-bar title="Yeni Üniversite Ekle" />
-    <v-flex
-      xs12
-      sm8
-      md6
-    >
+  <v-container fluid>
+    <v-row>
+      <title-bar title="Yeni Üniversite Ekle" />
+    </v-row>
+    <v-row justify="center">
       <add-university :dataset="dataset" :options="{title:'Yeni Üniversite Ekle',label:'Üniversite Adı',type:'addNewUni'}" />
-    </v-flex>
-  </v-layout>
+    </v-row>
+  </v-container>
 </template>
 
 <script>

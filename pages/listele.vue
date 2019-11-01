@@ -1,10 +1,12 @@
 <template pageTitle="Tüm Üniversiteler">
-  <div>
-    <title-bar title="Tüm Üniversiteler" />
-    <div class="d-flex justify-center flex-column pa-3 mt-3">
+  <v-container fluid>
+    <v-row>
+      <title-bar title="Tüm Üniversiteler" />
+    </v-row>
+    <v-row justify="center">
       <list-universities :dataset="dataset" :options="{title:'Üniversiteler',tableHeaders:headers,type:'uniList'}" />
-    </div>
-  </div>
+    </v-row>
+  </v-container>
 </template>
 
 <script>

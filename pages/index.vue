@@ -1,50 +1,39 @@
 <template>
-  <v-layout
-    column
-    justify-center
-    align-center
-  >
-    <v-app-bar
-      app
-      elevation="0"
-      height="75px"
-      class="appBar"
-      color="primary"
-    >
-      <v-toolbar-title>
-        Ana Sayfa
-      </v-toolbar-title>
-    </v-app-bar>
-
-    <v-flex
-      xs12
-      sm8
-      md6
-    >
-      <v-select
-        v-model="selected_uni"
-        :items="dataset"
-        item-text="okul_adi"
-        label="Üniversite Seçin"
-      />
-      <v-select
-        v-model="selected_letter"
-        :items="harfList"
-        item-text="harf"
-        label="Harf Notu Seçin"
-      />
-      <div v-if="selected_letter!==null">
-        <p>Katsayı karşılığı:</p>
-        <p>{{ selected_letter }}</p>
-        <p>ÜÜ'de Harf Notu:</p>
-        <p>{{ result.harf }}</p>
-      </div>
-    </v-flex>
-  </v-layout>
+  <v-container fluid>
+    <v-row>
+      <title-bar title="Ana Sayfa" />
+    </v-row>
+    <v-row justify="center">
+      <v-col cols="6">
+        <v-select
+          v-model="selected_uni"
+          :items="dataset"
+          item-text="okul_adi"
+          label="Üniversite Seçin"
+        />
+        <v-select
+          v-model="selected_letter"
+          :items="harfList"
+          item-text="harf"
+          label="Harf Notu Seçin"
+        />
+        <div v-if="selected_letter!==null">
+          <p>Katsayı karşılığı:</p>
+          <p>{{ selected_letter }}</p>
+          <p>ÜÜ'de Harf Notu:</p>
+          <p>{{ result.harf }}</p>
+        </div>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
+import TitleBar from '../components/base/TitleBar'
 export default {
+  components: {
+    TitleBar
+  },
   data () {
     return {
       dataset: [],

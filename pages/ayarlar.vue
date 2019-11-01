@@ -1,34 +1,41 @@
 <template>
-  <div>
-    <title-bar title="Ayarlar" />
-    <div class="d-flex flex-column mt-6">
-      <v-tabs>
-        <v-tabs-slider />
-        <v-tab
-          v-model="tab"
-          background-color="deep-purple accent-4"
-          class="elevation-2"
-          dark
+  <v-container fluid>
+    <v-row>
+      <title-bar title="Ayarlar" />
+    </v-row>
+    <v-row justify="center">
+      <v-card width="750">
+        <v-tabs
+          background-color="white accent-4"
+          grow
         >
-          Üsküdar Üniversitesi Not Sistemi
-        </v-tab>
-        <v-tab
-          v-model="tab"
-          background-color="deep-purple accent-4"
-          class="elevation-2"
-          dark
-        >
-          Taslak Ekle veya Düzenle
-        </v-tab>
-        <v-tab-item>
-          <add-university :dataset="editUU" :options="{title:'Harf Notlarını Düzenle',type:'settings'}" />
-        </v-tab-item>
-        <v-tab-item>
-          <list-universities :dataset="editDrafts" :options="{title:'Taslaklar',tableHeaders:headers,type:'template'}" />
-        </v-tab-item>
-      </v-tabs>
-    </div>
-  </div>
+          <v-tabs-slider />
+          <v-tab
+            v-model="tab"
+            background-color="deep-purple accent-4"
+            class="elevation-2"
+            dark
+          >
+            Üsküdar Üniversitesi Not Sistemi
+          </v-tab>
+          <v-tab
+            v-model="tab"
+            background-color="deep-purple accent-4"
+            class="elevation-2"
+            dark
+          >
+            Taslak Ekle veya Düzenle
+          </v-tab>
+          <v-tab-item>
+            <add-university :dataset="editUU" :options="{title:'Harf Notlarını Düzenle',type:'settings'}" />
+          </v-tab-item>
+          <v-tab-item>
+            <list-universities :dataset="editDrafts" :options="{title:'Taslaklar',tableHeaders:headers,type:'template'}" />
+          </v-tab-item>
+        </v-tabs>
+      </v-card>
+    </v-row>
+  </v-container>
 </template>
 
 <script>

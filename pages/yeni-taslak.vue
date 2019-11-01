@@ -1,18 +1,12 @@
 <template>
-  <v-layout
-    column
-    justify-center
-    align-center
-  >
-    <title-bar title="Taslak Ekle" />
-    <v-flex
-      xs12
-      sm8
-      md6
-    >
+  <v-container fluid>
+    <v-row>
+      <title-bar title="Taslak Ekle" />
+    </v-row>
+    <v-row justify="center">
       <add-university :dataset="dataset" :options="{title:'Yeni Taslak Ekle',label:'Taslak Adı', type:'addTemplate'}" />
-    </v-flex>
-  </v-layout>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
