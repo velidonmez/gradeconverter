@@ -64,24 +64,26 @@
       </template>
       <!--        todo: tabloda tasarım düzenlenecek-->
       <template v-slot:expanded-item="{ headers,item }">
-        <v-simple-table dense height="200" class="d-flex flex-column ma-2 pa-2">
-          <thead>
-            <tr>
-              <th class="text-left">
-                Harf Notu
-              </th>
-              <th class="text-left">
-                Katsayı
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="item in item.harf_araliklari_parsed" :key="item.name">
-              <td>{{ item.harf }}</td>
-              <td>{{ item.value }}</td>
-            </tr>
-          </tbody>
-        </v-simple-table>
+        <td colspan="4">
+          <v-simple-table dense class="d-flex flex-column ma-2 pa-2">
+            <thead>
+              <tr>
+                <th class="text-left">
+                  Harf Notu
+                </th>
+                <th class="text-left">
+                  Katsayı
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="item in item.harf_araliklari_parsed" :key="item.name">
+                <td>{{ item.harf }}</td>
+                <td>{{ item.value }}</td>
+              </tr>
+            </tbody>
+          </v-simple-table>
+        </td>
       </template>
     </v-data-table>
   </v-card>
