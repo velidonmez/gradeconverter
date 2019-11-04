@@ -65,39 +65,29 @@ export default {
         { text: '', value: 'data-table-expand' },
         { text: 'İşlemler', value: 'action', sortable: false }
       ],
-      tab: null,
-      editedItem: {
-        harf_araliklari: [],
-        date_time: {},
-        id: 0,
-        okul_adi: ''
-      }
+      tab: null
     }
   },
   async asyncData ({ $axios }) {
     const uuGrades = await $axios.post('/uuGradeSystem')
-    const gradeTemplates = await $axios.post('/gradeTemplates')
-    console.log({ 'template': gradeTemplates.data.response })
+    const gradeTemplates = []
+    await $axios.post('/gradeTemplates').then((res) => {
+      res.data.response.forEach((el) => {
+        const obj = JSON.parse(el.harf_araliklari)
+        gradeTemplates.push({
+          date_time: el.date_time,
+          harf_araliklari: el.harf_araliklari,
+          id: el.id,
+          name: el.name,
+          harf_araliklari_parsed: obj
+        })
+      })
+    }).catch((err) => {
+      console.log(err)
+    })
     return {
       editUU: uuGrades.data.response,
-      editDrafts: gradeTemplates.data.response
-    }
-  },
-  methods: {
-    async update () {
-      await this.$axios.post('/uuGradeSystem').then((res) => {
-        this.dataset = res.data.response
-        this.editedItem = this.dataset[0]
-        this.editedItem.harf_araliklari = JSON.parse(this.dataset[0].harf_araliklari)
-      })
-    },
-    async save () {
-      this.editedItem.date_time = new Date().toISOString()
-      this.editedItem.harf_araliklari = JSON.stringify(this.editedItem.harf_araliklari)
-      await this.$axios.post('/updateUUGradeSystem', {
-        dataset: this.editedItem
-      })
-      await this.update()
+      editDrafts: gradeTemplates
     }
   }
 }

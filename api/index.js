@@ -73,7 +73,7 @@ app.post('/insertUniData', async (req, res) => {
 
 app.post('/updateUniData', async (req, res) => {
   const data = req.body.dataset
-  const sql = `UPDATE universite SET okul_adi = '${data.okul_adi}',harf_araliklari = '${data.harf_araliklari}',date_time = CURRENT_TIME() WHERE id = '${data.id}'`
+  const sql = `UPDATE universite SET okul_adi = '${data.name}',harf_araliklari = '${data.harf_araliklari}',date_time = CURRENT_TIME() WHERE id = '${data.id}'`
   await connection.query(sql, (err, result) => {
     if (err) { throw err }
     res.status(200).json(createResponse(true, result))

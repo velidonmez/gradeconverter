@@ -24,7 +24,7 @@
                 <v-container>
                   <v-row>
                     <v-col cols="12" sm="12" md="12">
-                      <v-text-field v-model="editedItem.okul_adi" label="Ünivertsite Adı" />
+                      <v-text-field v-model="editedItem.name" label="Ünivertsite Adı" />
                     </v-col>
                     <v-col v-for="(item,index) in activeItemGrades" :key="index" cols="12" sm="6" md="6">
                       <v-text-field v-model="item.harf" label="Harf" />
@@ -76,7 +76,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item in JSON.parse(item.harf_araliklari)" :key="item.name">
+            <tr v-for="item in item.harf_araliklari_parsed" :key="item.name">
               <td>{{ item.harf }}</td>
               <td>{{ item.value }}</td>
             </tr>
@@ -108,7 +108,7 @@ export default {
         harf_araliklari: [],
         date_time: {},
         id: 0,
-        okul_adi: ''
+        name: ''
       }
     }
   },
@@ -117,7 +117,7 @@ export default {
     // todo: taslaklarda taslak adı gelmiyor.
     editItem (item) {
       this.editedIndex = this.dataset.indexOf(item)
-      this.activeItemGrades = JSON.parse(item.harf_araliklari)
+      this.activeItemGrades = item.harf_araliklari_parsed
       this.editedItem = Object.assign({}, item)
       this.dialog = true
     },
@@ -142,7 +142,7 @@ export default {
     },
     save () {
       if (this.editedIndex > -1) {
-        this.editedItem.harf_araliklari = JSON.stringify(this.editedItem.harf_araliklari)
+        this.editedItem.harf_araliklari = JSON.stringify(this.editedItem.harf_araliklari_parsed)
         this.editedItem.date_time = new Date().toISOString()
         Object.assign(this.dataset[this.editedIndex], this.editedItem)
         this.$axios.post('/updateUniData', {

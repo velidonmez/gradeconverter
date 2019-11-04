@@ -26,7 +26,7 @@
               Harf Notlarını Ekle
             </v-toolbar-title>
             <div class="flex-grow-1" />
-            <v-dialog v-model="dialog" max-width="500px">
+            <v-dialog v-model="dialog" :persistent="true" max-width="500px">
               <template v-slot:activator="{ on }">
                 <v-btn small color="primary" dark class="mb-2" v-on="on">
                   Yeni
@@ -174,28 +174,45 @@ export default {
       this.form.universiteAdi = ''
     },
     async submitToDb () {
-      if (this.options.type === 'settings') {
-        await this.$axios.post('/updateUUGradeSystem', {
-          dataset: {
-            okul_adi: this.form.universiteAdi,
-            harf_araliklari: JSON.stringify(this.form.harfAraliklari),
-            id: this.dataset[0].id
-          }
+      if (this.form.harfAraliklari.length > 0 && this.form.universiteAdi !== '') {
+        const gradeObj = await this.form.harfAraliklari.sort(function (a, b) {
+          return b.value - a.value
         })
-      } else if (this.options.type === 'addNewUni') {
-        await this.$axios.post('/insertUniData', {
-          okulAdi: this.form.universiteAdi,
-          harfAraliklari: JSON.stringify(this.form.harfAraliklari)
-        }).then((res) => {
-          this.clearTable()
-        })
-      } else if (this.options.type === 'addTemplate') {
-        console.log(this.form)
-        await this.$axios.post('/insertGradeTemplate', {
-          name: this.form.universiteAdi,
-          harfAraliklari: JSON.stringify(this.form.harfAraliklari)
-        }).then((res) => {
-          this.clearTable()
+        if (this.options.type === 'settings') {
+          await this.$axios.post('/updateUUGradeSystem', {
+            dataset: {
+              okul_adi: this.form.universiteAdi,
+              harf_araliklari: JSON.stringify(gradeObj),
+              id: this.dataset[0].id
+            }
+          })
+        } else if (this.options.type === 'addNewUni') {
+          await this.$axios.post('/insertUniData', {
+            okulAdi: this.form.universiteAdi,
+            harfAraliklari: JSON.stringify(gradeObj)
+          }).then((res) => {
+            this.clearTable()
+            this.$swal({
+              type: 'success',
+              title: 'Liste başarıyla Güncellendi..',
+              text: 'Liste tüm gösterilen alanlarda güncellendi.'
+            })
+          })
+        } else if (this.options.type === 'addTemplate') {
+          await this.$axios.post('/insertGradeTemplate', {
+            name: this.form.universiteAdi,
+            harfAraliklari: JSON.stringify(gradeObj)
+          }).then((res) => {
+            this.clearTable()
+          })
+        }
+      } else {
+        this.$swal({
+          type: 'error',
+          title: 'Liste Güncellenemedi...',
+          text: 'Bir şeyler ters gitti. [code00liu]',
+          footer: 'Bu konuda yazılım ekibiyle iletişime geçin.',
+          confirmButtonText: 'Kapat'
         })
       }
     }

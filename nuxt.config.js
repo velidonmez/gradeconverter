@@ -14,7 +14,8 @@ export default {
       { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'stylesheet', href: '/main.css' }
     ]
   },
   /*
@@ -37,14 +38,32 @@ export default {
   buildModules: [
     // Doc: https://github.com/nuxt-community/eslint-module
     '@nuxtjs/eslint-module',
-    '@nuxtjs/vuetify'
+    '@nuxtjs/vuetify',
+    [
+      'vue-sweetalert2/nuxt',
+      {
+        confirmButtonColor: '#4caf50',
+        cancelButtonColor: '#ff5252',
+        cancelButtonText: 'İptal',
+        confirmButtonText: 'Onayla'
+      }
+    ]
   ],
   /*
   ** Nuxt.js modules
   */
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
+    [
+      'vue-sweetalert2/nuxt',
+      {
+        confirmButtonColor: '#4caf50',
+        cancelButtonColor: '#ff5252',
+        cancelButtonText: 'İptal',
+        confirmButtonText: 'Onayla'
+      }
+    ]
   ],
   /*
   ** Axios module configuration
