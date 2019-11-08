@@ -100,7 +100,6 @@ app.post('/uuGradeSystem', async (req, res) => {
 
 app.post('/updateUUGradeSystem', async (req, res) => {
   const data = req.body.dataset
-  console.log(data)
   const sql = `UPDATE uu_grading_system SET okul_adi = '${data.okul_adi}',harf_araliklari = '${data.harf_araliklari}',date_time = CURRENT_TIME() WHERE id = '${data.id}'`
   await connection.query(sql, (err, result) => {
     if (err) { throw err }

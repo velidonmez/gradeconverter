@@ -6,12 +6,14 @@
     <v-row justify="center">
       <v-col cols="6">
         <v-select
+          outlined
           v-model="selected_uni"
           :items="dataset"
           item-text="okul_adi"
           label="Üniversite Seçin"
         />
         <v-select
+          outlined
           v-model="selected_letter"
           :items="harfList"
           item-text="harf"

@@ -114,7 +114,6 @@ export default {
       }
     }
   },
-
   methods: {
     // todo: taslaklarda taslak adı gelmiyor.
     editItem (item) {
