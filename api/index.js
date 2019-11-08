@@ -63,7 +63,8 @@ app.post('/university', async (req, res) => {
 app.post('/insertUniData', async (req, res) => {
   await insert('universite', {
     okul_adi: req.body.okulAdi,
-    harf_araliklari: req.body.harfAraliklari
+    harf_araliklari: req.body.harfAraliklari,
+    url: req.body.url
   }).then((res) => {
     res.status(200).json(createResponse(true, res))
   }).catch(() => {
@@ -73,7 +74,7 @@ app.post('/insertUniData', async (req, res) => {
 
 app.post('/updateUniData', async (req, res) => {
   const data = req.body.dataset
-  const sql = `UPDATE universite SET okul_adi = '${data.name}',harf_araliklari = '${data.harf_araliklari}',date_time = CURRENT_TIME() WHERE id = '${data.id}'`
+  const sql = `UPDATE universite SET okul_adi = '${data.name}',harf_araliklari = '${data.harf_araliklari}',date_time = CURRENT_TIME(),url = '${data.url}'  WHERE id = '${data.id}'`
   await connection.query(sql, (err, result) => {
     if (err) { throw err }
     res.status(200).json(createResponse(true, result))

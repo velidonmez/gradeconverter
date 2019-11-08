@@ -41,6 +41,7 @@ export default {
           date_time: el.date_time,
           harf_araliklari: el.harf_araliklari,
           id: el.id,
+          url: el.url,
           name: el.okul_adi,
           harf_araliklari_parsed: obj
         })

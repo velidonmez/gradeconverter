@@ -22,7 +22,7 @@
             />
           </v-layout>
 
-          <div class="subtitle-1">
+          <div class="subtitle-1 mb-2">
             Harf Notlarını Ekle
           </div>
           <v-select
@@ -32,6 +32,11 @@
             :items="templates"
             item-text="name"
             label="Taslak Seçin"
+          />
+          <v-text-field
+            v-model="form.url"
+            label="Yönetmelik URL"
+            required
           />
           <v-dialog v-model="dialog" :persistent="true" max-width="500px">
             <template v-slot:activator="{ on }">
@@ -117,7 +122,7 @@ export default {
       ],
       uniRules: [
         v => !!v || 'Bu alan boş bırakılamaz.',
-        v => v.length <= 30 || 'Üniversite adı en fazla 30 karakter içerebilir.'
+        v => v.length <= 60 || 'Üniversite adı en fazla 60 karakter içerebilir.'
       ],
       dialog: false,
       headers: [
@@ -141,6 +146,7 @@ export default {
       },
       form: {
         universiteAdi: '',
+        url: null,
         harfAraliklari: []
       }
     }
@@ -196,6 +202,7 @@ export default {
     clearTable () {
       this.form.harfAraliklari = []
       this.form.universiteAdi = ''
+      this.form.url = ''
     },
     async submitToDb () {
       if (this.form.harfAraliklari.length > 0 && this.form.universiteAdi !== '') {
@@ -213,6 +220,7 @@ export default {
         } else if (this.options.type === 'addNewUni') {
           await this.$axios.post('/insertUniData', {
             okulAdi: this.form.universiteAdi,
+            url: this.form.url,
             harfAraliklari: JSON.stringify(gradeObj)
           }).then((res) => {
             this.clearTable()

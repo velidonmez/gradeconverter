@@ -26,6 +26,9 @@
                     <v-col cols="12" sm="12" md="12">
                       <v-text-field v-model="editedItem.name" label="Ünivertsite Adı" />
                     </v-col>
+                    <v-col cols="12" sm="12" md="12">
+                      <v-text-field v-model="editedItem.url" label="Yönetmelik URL" />
+                    </v-col>
                     <v-col v-for="(item,index) in activeItemGrades" :key="index" cols="12" sm="6" md="6">
                       <v-text-field v-model="item.harf" label="Harf" />
                       <v-text-field v-model="item.value" label="Katsayı" />
@@ -83,6 +86,7 @@
               </tr>
             </tbody>
           </v-simple-table>
+          <a class="subtitle-2 d-flex flex-column ma-2 pa-2" target="_blank" :href="item.url">Yönetmelik Sayfası</a>
         </td>
       </template>
     </v-data-table>
