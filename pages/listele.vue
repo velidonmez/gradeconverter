@@ -34,6 +34,9 @@ export default {
   },
   async asyncData ({ $axios }) {
     const list = []
+    await $axios.post('/universityv2').then((res) => {
+      console.log(res)
+    })
     await $axios.post('/university').then((res) => {
       res.data.response.forEach((el) => {
         const obj = JSON.parse(el.harf_araliklari)

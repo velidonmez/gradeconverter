@@ -218,7 +218,7 @@ export default {
             }
           })
         } else if (this.options.type === 'addNewUni') {
-          await this.$axios.post('/insertUniData', {
+          await this.$axios.post('/insertUniDatav2', {
             okulAdi: this.form.universiteAdi,
             url: this.form.url,
             harfAraliklari: JSON.stringify(gradeObj)

@@ -1,9 +1,47 @@
+const path = require('path')
 const express = require('express')
 const mysql = require('mysql')
-
+const bodyParser = require('body-parser')
 const app = express()
+const universite = require('./models/Universite')
+
+// Database
+const db = require('./config/database')
+
+// Test DB
+db.authenticate().then(() => console.log('Database connected!!!...')).catch(err => console.log('Error: ' + err))
+
+// Body Parser
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
+
+app.post('/universityv2', async (req, res) => {
+  await universite.findAll().then((uni) => {
+    res.status(200).json(uni)
+  }).catch(err => console.log({ err }))
+})
+
+// Add a gig
+app.post('/insertUniDatav2', async (req, res) => {
+  console.log(req.body)
+  const okulAdi = req.body.okulAdi
+  const harfAraliklari = req.body.harfAraliklari
+  const url = req.body.url
+
+  // Insert into table
+  await universite.create({
+    okulAdi,
+    harfAraliklari,
+    url
+  }).then((res) => {
+    res.status(200).json(createResponse(true, res))
+  }).catch(() => {
+    res.status(200).json(createResponse(false, { msg: 'Invalid Data' }))
+  })
+})
+
+/* old part */
+
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
