@@ -13,14 +13,14 @@ export const mutations = {
 export const actions = {
   async nuxtServerInit (vuexContext, context) {
     await context.$axios.post('/gradeTemplates').then((templates) => {
-      if (templates.data.status) {
-        vuexContext.commit('setTemplates', templates.data.response)
+      if (templates.status === 200) {
+        vuexContext.commit('setTemplates', templates.data)
       }
     })
   },
   async refreshTemplates (context) {
     const response = await this.$axios.post('/gradeTemplates').then((dataset) => {
-      context.commit('setTemplates', dataset.data.response)
+      context.commit('setTemplates', dataset.data)
     })
     return response
   }

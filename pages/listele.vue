@@ -26,7 +26,7 @@ export default {
           align: 'left',
           value: 'name'
         },
-        { text: 'Güncellenme Tarihi', value: 'date_time' },
+        { text: 'Güncellenme Tarihi', value: 'updatedAt' },
         { text: 'İşlemler', value: 'action', sortable: false },
         { text: 'Detay', value: 'data-table-expand' }
       ]
@@ -34,19 +34,17 @@ export default {
   },
   async asyncData ({ $axios }) {
     const list = []
-    await $axios.post('/universityv2').then((res) => {
-      console.log(res)
-    })
     await $axios.post('/university').then((res) => {
-      res.data.response.forEach((el) => {
-        const obj = JSON.parse(el.harf_araliklari)
+      const data = res.data
+      data.forEach((el) => {
+        const obj = JSON.parse(el.harfAraliklari)
         list.push({
-          date_time: el.date_time,
-          harf_araliklari: el.harf_araliklari,
+          updatedAt: el.updatedAt,
+          harfAraliklari: el.harfAraliklari,
           id: el.id,
           url: el.url,
-          name: el.okul_adi,
-          harf_araliklari_parsed: obj
+          name: el.okulAdi,
+          harfAraliklariParsed: obj
         })
       })
     }).catch((err) => {

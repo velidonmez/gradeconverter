@@ -9,7 +9,7 @@
           outlined
           v-model="selected_uni"
           :items="dataset"
-          item-text="okul_adi"
+          item-text="okulAdi"
           label="Üniversite Seçin"
         />
         <v-select
@@ -59,9 +59,9 @@ export default {
   watch: {
     selected_uni () {
       const item = this.dataset.find((el) => {
-        return this.selected_uni === el.okul_adi
+        return this.selected_uni === el.okulAdi
       })
-      this.harfList = JSON.parse(item.harf_araliklari)
+      this.harfList = JSON.parse(item.harfAraliklari)
     },
     selected_letter () {
       console.log(this.selected_letter)
@@ -70,7 +70,7 @@ export default {
   },
   async created () {
     await this.$axios.post('/university').then((res) => {
-      this.dataset = res.data.response
+      this.dataset = res.data
     })
   },
   methods: {

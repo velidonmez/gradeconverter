@@ -80,7 +80,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="item in item.harf_araliklari_parsed" :key="item.name">
+              <tr v-for="item in item.harfAraliklariParsed" :key="item.name">
                 <td>{{ item.harf }}</td>
                 <td>{{ item.value }}</td>
               </tr>
@@ -111,8 +111,8 @@ export default {
       itemDetails: [],
       editedIndex: -1,
       editedItem: {
-        harf_araliklari: [],
-        date_time: {},
+        harfAraliklari: [],
+        updatedAt: {},
         id: 0,
         name: ''
       }
@@ -122,7 +122,7 @@ export default {
     // todo: taslaklarda taslak adı gelmiyor.
     editItem (item) {
       this.editedIndex = this.dataset.indexOf(item)
-      this.activeItemGrades = item.harf_araliklari_parsed
+      this.activeItemGrades = item.harfAraliklariParsed
       this.editedItem = Object.assign({}, item)
       this.dialog = true
     },
@@ -146,12 +146,24 @@ export default {
       this.editedIndex = -1
     },
     save () {
-      if (this.editedIndex > -1) {
-        this.editedItem.harf_araliklari = JSON.stringify(this.editedItem.harf_araliklari_parsed)
-        this.editedItem.date_time = new Date().toISOString()
-        Object.assign(this.dataset[this.editedIndex], this.editedItem)
+      if (this.editedIndex > -1 && this.options.type === 'uniList') {
+        const dataset = {
+          id: this.editedItem.id,
+          name: this.editedItem.name,
+          url: this.editedItem.url
+        }
         this.$axios.post('/updateUniData', {
-          dataset: this.editedItem
+          dataset
+        })
+      } else if (this.editedIndex > -1 && this.options.type === 'template') {
+        const dataset = {
+          id: this.editedItem.id,
+          name: this.editedItem.name,
+          harfAraliklari: JSON.stringify(this.activeItemGrades)
+        }
+        console.log(dataset)
+        this.$axios.post('/updateGradeTemplate', {
+          dataset
         })
       } else {
         this.dataset.push(this.editedItem)

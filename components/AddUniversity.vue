@@ -161,7 +161,7 @@ export default {
       const item = this.templates.find((el) => {
         return this.selectedTemplate === el.name
       })
-      this.form.harfAraliklari = JSON.parse(item.harf_araliklari)
+      this.form.harfAraliklari = JSON.parse(item.harfAraliklari)
     },
     selected_letter () {
       console.log(this.selected_letter)
@@ -170,8 +170,8 @@ export default {
   },
   created () {
     if (this.options.type === 'settings') {
-      this.form.universiteAdi = this.dataset[0].okul_adi
-      this.form.harfAraliklari = JSON.parse(this.dataset[0].harf_araliklari)
+      this.form.universiteAdi = this.dataset[0].okulAdi
+      this.form.harfAraliklari = JSON.parse(this.dataset[0].harfAraliklari)
     }
   },
   methods: {
@@ -212,16 +212,19 @@ export default {
         if (this.options.type === 'settings') {
           await this.$axios.post('/updateUUGradeSystem', {
             dataset: {
-              okul_adi: this.form.universiteAdi,
-              harf_araliklari: JSON.stringify(gradeObj),
+              okulAdi: this.form.universiteAdi,
+              harfAraliklari: JSON.stringify(gradeObj),
               id: this.dataset[0].id
             }
           })
         } else if (this.options.type === 'addNewUni') {
-          await this.$axios.post('/insertUniDatav2', {
+          const dataset = {
             okulAdi: this.form.universiteAdi,
             url: this.form.url,
             harfAraliklari: JSON.stringify(gradeObj)
+          }
+          await this.$axios.post('/insertUniData', {
+            dataset
           }).then((res) => {
             this.clearTable()
             this.$swal({
@@ -232,8 +235,10 @@ export default {
           })
         } else if (this.options.type === 'addTemplate') {
           await this.$axios.post('/insertGradeTemplate', {
-            name: this.form.universiteAdi,
-            harfAraliklari: JSON.stringify(gradeObj)
+            dataset: {
+              name: this.form.universiteAdi,
+              harfAraliklari: JSON.stringify(gradeObj)
+            }
           }).then((res) => {
             this.clearTable()
           })

@@ -61,7 +61,7 @@ export default {
           align: 'left',
           value: 'name'
         },
-        { text: 'Güncellenme Tarihi', value: 'date_time' },
+        { text: 'Güncellenme Tarihi', value: 'dateTime' },
         { text: '', value: 'data-table-expand' },
         { text: 'İşlemler', value: 'action', sortable: false }
       ],
@@ -72,21 +72,21 @@ export default {
     const uuGrades = await $axios.post('/uuGradeSystem')
     const gradeTemplates = []
     await $axios.post('/gradeTemplates').then((res) => {
-      res.data.response.forEach((el) => {
-        const obj = JSON.parse(el.harf_araliklari)
+      res.data.forEach((el) => {
+        const obj = JSON.parse(el.harfAraliklari)
         gradeTemplates.push({
-          date_time: el.date_time,
-          harf_araliklari: el.harf_araliklari,
+          dateTime: el.updatedAt,
+          harfAraliklari: el.harfAraliklari,
           id: el.id,
           name: el.name,
-          harf_araliklari_parsed: obj
+          harfAraliklariParsed: obj
         })
       })
     }).catch((err) => {
       console.log(err)
     })
     return {
-      editUU: uuGrades.data.response,
+      editUU: uuGrades.data,
       editDrafts: gradeTemplates
     }
   }

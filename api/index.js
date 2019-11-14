@@ -1,188 +1,136 @@
-const path = require('path')
 const express = require('express')
-const mysql = require('mysql')
 const bodyParser = require('body-parser')
 const app = express()
-const universite = require('./models/Universite')
+// import models
+const Universite = require('./models/Universite')
+const UuGradingSystem = require('./models/UuGradingSystem')
+const GradingTemplate = require('./models/GradingTemplate')
 
 // Database
 const db = require('./config/database')
-
-// Test DB
-db.authenticate().then(() => console.log('Database connected!!!...')).catch(err => console.log('Error: ' + err))
-
 // Body Parser
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.json())
+// Test DB
+db.authenticate().then(() => console.log('Database connected!!!...')).catch(err => console.log('Error: ' + err))
 
-app.post('/universityv2', async (req, res) => {
-  await universite.findAll().then((uni) => {
+// Crud university
+// Uni data
+app.post('/university', async (req, res) => {
+  await Universite.findAll().then((uni) => {
     res.status(200).json(uni)
   }).catch(err => console.log({ err }))
 })
 
-// Add a gig
-app.post('/insertUniDatav2', async (req, res) => {
-  console.log(req.body)
-  const okulAdi = req.body.okulAdi
-  const harfAraliklari = req.body.harfAraliklari
-  const url = req.body.url
-
-  // Insert into table
-  await universite.create({
-    okulAdi,
-    harfAraliklari,
-    url
-  }).then((res) => {
-    res.status(200).json(createResponse(true, res))
-  }).catch(() => {
-    res.status(200).json(createResponse(false, { msg: 'Invalid Data' }))
-  })
-})
-
-/* old part */
-
-const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'gradeconverter'
-})
-
-connection.connect(function (err) {
-  if (err) { throw err }
-  console.log('Connected to mySql!')
-})
-
-// ########################################################################################## start HELPERS
-const createResponse = (status, data = false) => {
-  if (data) {
-    return {
-      response: data,
-      status
-    }
-  } else {
-    return {
-      status
-    }
-  }
-}
-
-// ########################################################################################## start GENERAL FUNCTIONS
-const insert = (table, data, dataId = false) => {
-  const sql = 'INSERT INTO ' + table + ' SET ?'
-  return new Promise((resolve, reject) => {
-    connection.query(sql, data, (error, result) => {
-      data.id = result.insertId
-      if (!error) {
-        resolve(createResponse(true, {
-          result,
-          data,
-          insertId: dataId === false ? data.id : dataId,
-          dbStatus: result.affectedRows !== 0
-        }))
-      } else {
-        resolve(createResponse(false, error))
-      }
-    })
-  })
-}
-
-// api
-// CRUD Yeni üniversite bilgileri
-app.post('/university', async (req, res) => {
-  const sql = 'SELECT * FROM universite'
-  await connection.query(sql, (err, result, fields) => {
-    if (err) { throw err }
-    res.status(200).json(createResponse(true, result))
-  })
-})
-
+// Add a uni
 app.post('/insertUniData', async (req, res) => {
-  await insert('universite', {
-    okul_adi: req.body.okulAdi,
-    harf_araliklari: req.body.harfAraliklari,
-    url: req.body.url
-  }).then((res) => {
-    res.status(200).json(createResponse(true, res))
-  }).catch(() => {
-    res.status(200).json(createResponse(false, { msg: 'Invalid Data' }))
+  const data = req.body.dataset
+  // Insert into table
+  await Universite.create({
+    okulAdi: data.okulAdi,
+    harfAraliklari: data.harfAraliklari,
+    url: data.url
+  }).then((response) => {
+    res.status(200).json(response)
+    console.log('Universite added: ' + data)
+  }).catch((err) => {
+    console.log('Insert failed with error: ' + err)
   })
 })
 
+// Update a uni
 app.post('/updateUniData', async (req, res) => {
   const data = req.body.dataset
-  const sql = `UPDATE universite SET okul_adi = '${data.name}',harf_araliklari = '${data.harf_araliklari}',date_time = CURRENT_TIME(),url = '${data.url}'  WHERE id = '${data.id}'`
-  await connection.query(sql, (err, result) => {
-    if (err) { throw err }
-    res.status(200).json(createResponse(true, result))
+  await Universite.update({ okulAdi: data.name, url: data.url },
+    { where: { id: data.id } }
+  ).then(() => {
+    console.log('Update succesful id: ' + data.id)
+  }).catch(function (err) {
+    console.log('update failed with error: ' + err)
+    return 0
   })
 })
 
+// Delete a uni based on Id
 app.post('/deleteUniData', async (req, res) => {
   const data = req.body.dataset
-  const sql = `DELETE FROM universite WHERE id = '${data.id}'`
-  await connection.query(sql, (err, result) => {
-    if (err) { throw err }
-    res.status(200).json(createResponse(true, result))
-  })
-})
-// -------------------------------------------------------------------------//
-// CRUD uskudar uni not sistemi
-app.post('/uuGradeSystem', async (req, res) => {
-  const sql = 'SELECT * FROM uu_grading_system'
-  await connection.query(sql, (err, result, fields) => {
-    if (err) { throw err }
-    res.status(200).json(createResponse(true, result))
+  await Universite.destroy({ where: { id: data.id } }
+  ).then(() => {
+    console.log('Delete succesful id: ' + data.id)
+  }).catch(function (err) {
+    console.log('update failed with error: ' + err)
+    return 0
   })
 })
 
+// CRUD uskudar uni not sistemi
+// UU grades data
+app.post('/uuGradeSystem', async (req, res) => {
+  await UuGradingSystem.findAll().then((uni) => {
+    res.status(200).json(uni)
+  }).catch(err => console.log({ err }))
+})
+
+// Update a UU Grades
 app.post('/updateUUGradeSystem', async (req, res) => {
   const data = req.body.dataset
-  const sql = `UPDATE uu_grading_system SET okul_adi = '${data.okul_adi}',harf_araliklari = '${data.harf_araliklari}',date_time = CURRENT_TIME() WHERE id = '${data.id}'`
-  await connection.query(sql, (err, result) => {
-    if (err) { throw err }
-    res.status(200).json(createResponse(true, result))
+  await UuGradingSystem.update({ okulAdi: data.okulAdi, harfAraliklari: data.harfAraliklari },
+    { where: { id: data.id } }
+  ).then(() => {
+    console.log('Update succesful id: ' + data.id)
+  }).catch(function (err) {
+    console.log('update failed with error: ' + err)
+    return 0
   })
 })
-// ---------------------------------------------------------------------------------
+
 // CRUD not taslakları
+// get templates
 app.post('/gradeTemplates', async (req, res) => {
-  const sql = 'SELECT * FROM grading_template'
-  await connection.query(sql, (err, result, fields) => {
-    if (err) { throw err }
-    res.status(200).json(createResponse(true, result))
-  })
+  await GradingTemplate.findAll().then((uni) => {
+    res.status(200).json(uni)
+  }).catch(err => console.log({ err }))
 })
 
+// Add a template
 app.post('/insertGradeTemplate', async (req, res) => {
-  await insert('grading_template', {
-    name: req.body.name,
-    harf_araliklari: req.body.harfAraliklari
+  const data = req.body.dataset
+  // Insert into table
+  await GradingTemplate.create({
+    name: data.name,
+    harfAraliklari: data.harfAraliklari
   }).then((res) => {
-    res.status(200).json(createResponse(true, res))
-  }).catch(() => {
-    res.status(200).json(createResponse(false, { msg: 'Invalid Data' }))
+    console.log('Template added: ' + data)
+  }).catch((err) => {
+    console.log('Insert failed with error: ' + err)
   })
 })
 
+// Update a UU Grades
 app.post('/updateGradeTemplate', async (req, res) => {
   const data = req.body.dataset
-  const sql = `UPDATE grading_template SET okul_adi = '${data.okul_adi}',harf_araliklari = '${data.harf_araliklari}',date_time = CURRENT_TIME() WHERE id = '${data.id}'`
-  await connection.query(sql, (err, result) => {
-    if (err) { throw err }
-    res.status(200).json(createResponse(true, result))
+  await GradingTemplate.update({ name: data.name, harfAraliklari: data.harfAraliklari },
+    { where: { id: data.id } }
+  ).then(() => {
+    console.log('Update succesful id: ' + data.id)
+  }).catch(function (err) {
+    console.log('update failed with error: ' + err)
+    return 0
   })
 })
 
+// Delete a template based on Id
 app.post('/deleteGradeTemplate', async (req, res) => {
   const data = req.body.dataset
-  const sql = `DELETE FROM grading_template WHERE id = '${data.id}'`
-  await connection.query(sql, (err, result) => {
-    if (err) { throw err }
-    res.status(200).json(createResponse(true, result))
+  await GradingTemplate.destroy({ where: { id: data.id } }
+  ).then(() => {
+    console.log('Delete succesful id: ' + data.id)
+  }).catch(function (err) {
+    console.log('update failed with error: ' + err)
+    return 0
   })
 })
+
 module.exports = {
   path: '/api',
   handler: app
