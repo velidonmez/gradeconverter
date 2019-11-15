@@ -7,37 +7,53 @@
     >
       <template v-slot:top>
         <v-form v-model="valid">
-          <v-layout column>
-            <v-card-title class="title">
+          <v-row class="pa-2">
+            <h2 class="title">
               {{ options.title }}
-            </v-card-title>
+            </h2>
+          </v-row>
+          <v-row class="pa-2">
             <v-text-field
               v-model="form.universiteAdi"
               :rules="uniRules"
-              class="mx-2"
               outlined
               :label="options.label"
               required
               autocomplete="off"
             />
-          </v-layout>
-
-          <div class="subtitle-1 mb-2">
-            Harf Notlarını Ekle
-          </div>
-          <v-select
-            v-model="selectedTemplate"
-            dense
-            outlined
-            :items="templates"
-            item-text="name"
-            label="Taslak Seçin"
-          />
-          <v-text-field
-            v-model="form.url"
-            label="Yönetmelik URL"
-            required
-          />
+          </v-row>
+          <v-row class="pa-2">
+            <v-select
+              v-model="selectedTemplate"
+              class="mr-2"
+              dense
+              outlined
+              :items="templates"
+              item-text="name"
+              label="Üniversite Türü"
+            />
+            <v-select
+              v-model="selectedTemplate"
+              class="ml-2"
+              dense
+              outlined
+              :items="templates"
+              item-text="name"
+              label="Taslak Seçin"
+            />
+          </v-row>
+          <v-row class="pa-2">
+            <v-text-field
+              v-model="form.url"
+              label="Yönetmelik URL"
+              required
+            />
+          </v-row>
+          <v-row class="pa-2">
+            <h2 class="subtitle-1">
+              Harf Notlarını Ekle
+            </h2>
+          </v-row>
           <v-dialog v-model="dialog" :persistent="true" max-width="500px">
             <template v-slot:activator="{ on }">
               <v-btn small color="float-right primary" dark v-on="on">
