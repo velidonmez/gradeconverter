@@ -4,6 +4,7 @@ const app = express()
 // import models
 const Universite = require('./models/Universite')
 const UuGradingSystem = require('./models/UuGradingSystem')
+const UniversityType = require('./models/UniversityType')
 const GradingTemplate = require('./models/GradingTemplate')
 
 // Database
@@ -129,6 +130,14 @@ app.post('/deleteGradeTemplate', async (req, res) => {
     console.log('update failed with error: ' + err)
     return 0
   })
+})
+
+// Crud Universite türü
+// get university types
+app.post('/universityTypes', async (req, res) => {
+  await UniversityType.findAll().then((uni) => {
+    res.status(200).json(uni)
+  }).catch(err => console.log({ err }))
 })
 
 module.exports = {

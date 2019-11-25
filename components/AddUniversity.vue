@@ -24,12 +24,12 @@
           </v-row>
           <v-row class="pa-2">
             <v-select
-              v-model="selectedTemplate"
+              v-model="selectedUniversityType"
               class="mr-2"
               dense
               outlined
-              :items="templates"
-              item-text="name"
+              :items="universityTypes"
+              item-text="value"
               label="Üniversite Türü"
             />
             <v-select
@@ -131,6 +131,7 @@ export default {
   data () {
     return {
       selectedTemplate: null,
+      selectedUniversityType: null,
       valid: false,
       letterRules: [
         v => !!v || 'Bu alan boş bırakılamaz.',
@@ -169,11 +170,13 @@ export default {
   },
   computed: {
     ...mapGetters({
-      templates: 'getTemplates'
+      templates: 'getTemplates',
+      universityTypes: 'getUniversityTypes'
     })
   },
   watch: {
     selectedTemplate () {
+      console.log(this.selectedUniversityType)
       const item = this.templates.find((el) => {
         return this.selectedTemplate === el.name
       })
@@ -236,6 +239,7 @@ export default {
         } else if (this.options.type === 'addNewUni') {
           const dataset = {
             okulAdi: this.form.universiteAdi,
+            okulTuru: this.selectedUniversityType,
             url: this.form.url,
             harfAraliklari: JSON.stringify(gradeObj)
           }

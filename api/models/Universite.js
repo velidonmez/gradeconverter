@@ -5,6 +5,9 @@ const Universite = db.define('universite', {
   okulAdi: {
     type: Sequelize.STRING
   },
+  okulTuru: {
+    type: Sequelize.STRING
+  },
   harfAraliklari: {
     type: Sequelize.STRING
   },
