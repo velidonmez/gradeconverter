@@ -1,21 +1,34 @@
 <template>
   <v-card class="pa-4" width="750">
-    <v-data-table
-      :headers="options.tableHeaders"
-      :items="dataset"
-      sort-by="id"
-      show-expand
-    >
-      <template v-slot:top>
-        <v-toolbar flat color="white">
-          <v-toolbar-title>{{ options.title }}</v-toolbar-title>
-          <v-spacer />
+    <div class="row pa-2">
+      <div class="col-6 title">
+        {{ options.title }}
+      </div>
+      <div class="col-6">
+        <v-btn class="float-right" color="primary" nuxt :to="options.type === 'uniList'?'/yeni':'/yeni-taslak'">
+          Yeni
+        </v-btn>
+      </div>
+    </div>
+    <div class="row pa-2">
+      <div class="col-12">
+        <v-text-field
+          v-model="search"
+          append-icon="mdi-magnify"
+          label="Ara..."
+        />
+      </div>
+    </div>
+    <div class="row pa-2">
+      <v-data-table
+        :headers="options.tableHeaders"
+        :items="dataset"
+        :search="search"
+        sort-by="id"
+        show-expand
+      >
+        <template v-slot:top>
           <v-dialog v-model="dialog" max-width="500px">
-            <template v-slot:activator="{ on }">
-              <v-btn color="primary" dark class="mb-2" nuxt :to="options.type === 'uniList'?'/yeni':'/yeni-taslak'">
-                Yeni
-              </v-btn>
-            </template>
             <v-card>
               <v-card-title>
                 <span class="headline"> Düzenle </span>
@@ -48,48 +61,48 @@
               </v-card-actions>
             </v-card>
           </v-dialog>
-        </v-toolbar>
-      </template>
-      <template v-slot:item.action="{ item }">
-        <v-icon
-          small
-          class="mr-2"
-          @click="editItem(item)"
-        >
-          mdi-pencil
-        </v-icon>
-        <v-icon
-          small
-          @click="deleteItem(item)"
-        >
-          mdi-delete
-        </v-icon>
-      </template>
-      <!--        todo: tabloda tasarım düzenlenecek-->
-      <template v-slot:expanded-item="{ headers,item }">
-        <td colspan="4">
-          <v-simple-table dense class="d-flex flex-column ma-2 pa-2">
-            <thead>
-              <tr>
-                <th class="text-left">
-                  Harf Notu
-                </th>
-                <th class="text-left">
-                  Katsayı
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="item in item.harfAraliklariParsed" :key="item.name">
-                <td>{{ item.harf }}</td>
-                <td>{{ item.value }}</td>
-              </tr>
-            </tbody>
-          </v-simple-table>
-          <a class="subtitle-2 d-flex flex-column ma-2 pa-2" target="_blank" :href="item.url">Yönetmelik Sayfası</a>
-        </td>
-      </template>
-    </v-data-table>
+        </template>
+        <template v-slot:item.action="{ item }">
+          <v-icon
+            small
+            class="mr-2"
+            @click="editItem(item)"
+          >
+            mdi-pencil
+          </v-icon>
+          <v-icon
+            small
+            @click="deleteItem(item)"
+          >
+            mdi-delete
+          </v-icon>
+        </template>
+        <!--        todo: tabloda tasarım düzenlenecek-->
+        <template v-slot:expanded-item="{ headers,item }">
+          <td colspan="4">
+            <v-simple-table dense class="d-flex flex-column ma-2 pa-2">
+              <thead>
+                <tr>
+                  <th class="text-left">
+                    Harf Notu
+                  </th>
+                  <th class="text-left">
+                    Katsayı
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="item in item.harfAraliklariParsed" :key="item.name">
+                  <td>{{ item.harf }}</td>
+                  <td>{{ item.value }}</td>
+                </tr>
+              </tbody>
+            </v-simple-table>
+            <a class="subtitle-2 d-flex flex-column ma-2 pa-2" target="_blank" :href="item.url">Yönetmelik Sayfası</a>
+          </td>
+        </template>
+      </v-data-table>
+    </div>
   </v-card>
 </template>
 <script>
@@ -106,6 +119,7 @@ export default {
   },
   data () {
     return {
+      search: '',
       activeItemGrades: {},
       dialog: false,
       itemDetails: [],

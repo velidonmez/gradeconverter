@@ -1,109 +1,109 @@
 <template>
   <v-card width="750" class="pa-4">
-    <v-data-table
-      :disable-pagination="true"
-      :headers="headers"
-      :items="form.harfAraliklari"
-    >
-      <template v-slot:top>
-        <v-form v-model="valid">
-          <v-row class="pa-2">
-            <h2 class="title">
-              {{ options.title }}
-            </h2>
-          </v-row>
-          <v-row class="pa-2">
-            <v-text-field
-              v-model="form.universiteAdi"
-              :rules="uniRules"
-              outlined
-              :label="options.label"
-              required
-              autocomplete="off"
-            />
-          </v-row>
-          <v-row class="pa-2">
-            <v-select
-              v-model="selectedUniversityType"
-              class="mr-2"
-              dense
-              outlined
-              :items="universityTypes"
-              item-text="value"
-              label="Üniversite Türü"
-            />
-            <v-select
-              v-model="selectedTemplate"
-              class="ml-2"
-              dense
-              outlined
-              :items="templates"
-              item-text="name"
-              label="Taslak Seçin"
-            />
-          </v-row>
-          <v-row class="pa-2">
-            <v-text-field
-              v-model="form.url"
-              label="Yönetmelik URL"
-              required
-            />
-          </v-row>
-          <v-row class="pa-2">
-            <h2 class="subtitle-1">
-              Harf Notlarını Ekle
-            </h2>
-          </v-row>
-          <v-dialog v-model="dialog" :persistent="true" max-width="500px">
-            <template v-slot:activator="{ on }">
-              <v-btn small color="float-right primary" dark v-on="on">
-                Yeni
-              </v-btn>
-            </template>
-            <v-card>
-              <v-card-title>
-                <span class="headline">Ekle</span>
-              </v-card-title>
-              <v-card-text>
-                <v-container>
-                  <v-row>
-                    <v-col cols="12" sm="6" md="4">
-                      <v-text-field v-model="editedItem.harf" required :rules="letterRules" label="Harf Notu" />
-                    </v-col>
-                    <v-col cols="12" sm="6" md="4">
-                      <v-text-field v-model="editedItem.value" required type="number" label="Katsayı" />
-                    </v-col>
-                  </v-row>
-                </v-container>
-              </v-card-text>
-              <v-card-actions>
-                <v-btn color="blue darken-1" text @click="close">
-                  Cancel
+    <div class="pa-2">
+      <v-data-table
+        :disable-pagination="true"
+        :headers="headers"
+        :items="form.harfAraliklari"
+      >
+        <template v-slot:top>
+          <v-form v-model="valid">
+            <v-row class="pa-2">
+              <h2 class="title">
+                {{ options.title }}
+              </h2>
+            </v-row>
+            <v-row class="pa-2">
+              <v-text-field
+                v-model="form.universiteAdi"
+                :rules="uniRules"
+                outlined
+                :label="options.label"
+                required
+                autocomplete="off"
+              />
+            </v-row>
+            <v-row class="pa-2">
+              <v-select
+                v-model="selectedUniversityType"
+                class="mr-2"
+                outlined
+                :items="universityTypes"
+                item-text="value"
+                label="Üniversite Türü"
+              />
+              <v-select
+                v-model="selectedTemplate"
+                class="ml-2"
+                outlined
+                :items="templates"
+                item-text="name"
+                label="Taslak Seçin"
+              />
+            </v-row>
+            <v-row class="pa-2">
+              <v-text-field
+                v-model="form.url"
+                label="Yönetmelik URL"
+                required
+              />
+            </v-row>
+            <v-row class="pa-2">
+              <h2 class="subtitle-1">
+                Harf Notlarını Ekle
+              </h2>
+            </v-row>
+            <v-dialog v-model="dialog" :persistent="true" max-width="500px">
+              <template v-slot:activator="{ on }">
+                <v-btn small color="float-right primary" dark v-on="on">
+                  Yeni
                 </v-btn>
-                <v-btn color="blue darken-1" text @click="save">
-                  Save
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
-        </v-form>
-      </template>
-      <template v-slot:item.action="{ item }">
-        <v-icon
-          small
-          class="mr-2"
-          @click="editItem(item)"
-        >
-          mdi-pencil
-        </v-icon>
-        <v-icon
-          small
-          @click="deleteItem(item)"
-        >
-          mdi-delete
-        </v-icon>
-      </template>
-    </v-data-table>
+              </template>
+              <v-card>
+                <v-card-title>
+                  <span class="headline">Ekle</span>
+                </v-card-title>
+                <v-card-text>
+                  <v-container>
+                    <v-row>
+                      <v-col cols="12" sm="6" md="4">
+                        <v-text-field v-model="editedItem.harf" required :rules="letterRules" label="Harf Notu" />
+                      </v-col>
+                      <v-col cols="12" sm="6" md="4">
+                        <v-text-field v-model="editedItem.value" required type="number" label="Katsayı" />
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                </v-card-text>
+                <v-card-actions>
+                  <v-btn color="blue darken-1" text @click="close">
+                    Cancel
+                  </v-btn>
+                  <v-btn color="blue darken-1" text @click="save">
+                    Save
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+          </v-form>
+        </template>
+        <template v-slot:item.action="{ item }">
+          <v-icon
+            small
+            class="mr-2"
+            @click="editItem(item)"
+          >
+            mdi-pencil
+          </v-icon>
+          <v-icon
+            small
+            @click="deleteItem(item)"
+          >
+            mdi-delete
+          </v-icon>
+        </template>
+      </v-data-table>
+    </div>
     <v-card-actions>
       <v-spacer />
       <v-btn
