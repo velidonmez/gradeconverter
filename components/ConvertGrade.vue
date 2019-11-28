@@ -1,13 +1,15 @@
 <template>
   <v-card width="750" class="pa-4">
     <div class="title pa-2">
-      <h2 class="title">Not Dönüşümü</h2>
+      <h2 class="title">
+        Harf Notu Dönüşüm Tablosu
+      </h2>
     </div>
     <div class="pa-2">
       <v-autocomplete
         v-model="selected_uni"
         item-text="okulAdi"
-        label="Üniversite Seçin"
+        label="Öğrencinin geldiği üniversite"
         :filter="(item, queryText, itemText) => {
           return itemText.toLocaleUpperCase().indexOf(queryText.toLocaleUpperCase()) > -1
         }"
@@ -24,11 +26,11 @@
         label="Harf Notu Seçin"
       />
     </div>
-    <div class="pa-2" v-if="selected_letter!==null">
-      <p>Katsayı karşılığı:</p>
-      <p>{{ selected_letter }}</p>
-      <p>ÜÜ'de Harf Notu:</p>
-      <p>{{ result.harf }}</p>
+    <div v-if="selected_letter!==null" class="pa-2">
+      <p>Üsküdar Üniversitesi'ndeki harf notu karşılığı: <span class="font-weight-bold">   {{ result.harf }}</span> </p>
+
+      <p>Katsayısı (Sayısal not karşılığı): <span class="font-weight-bold">{{ selected_letter }}</span></p>
+      <p />
     </div>
   </v-card>
 </template>
