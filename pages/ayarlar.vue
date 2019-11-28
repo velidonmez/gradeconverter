@@ -48,6 +48,7 @@ export default {
     listUniversities,
     TitleBar
   },
+  middleware: 'auth',
   data () {
     return {
       editUU: [],

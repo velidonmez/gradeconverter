@@ -13,6 +13,9 @@ export default {
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
     ],
+    htmlAttrs: {
+      lang: 'tr'
+    },
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       { rel: 'stylesheet', href: '/main.css' }
@@ -56,6 +59,7 @@ export default {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
+    '@nuxtjs/auth',
     [
       'vue-sweetalert2/nuxt',
       {
@@ -95,6 +99,24 @@ export default {
           error: colors.deepOrange.accent4,
           success: colors.green.accent3
         }
+      }
+    }
+  },
+  auth: {
+    strategies: {
+      local: {
+        endpoints: {
+          login: { url: '/sessions', method: 'post', propertyName: 'token' },
+          logout: { url: '/sessions', method: 'delete' },
+          user: { url: '/sessions/user', method: 'get', propertyName: 'data.attributes' }
+        },
+        // tokenRequired: true,
+        tokenType: ''
+      },
+      auth0: {
+        domain: 'dev-5lyfu6du.auth0.com',
+        client_id: 'J8n7FeOIckiVTuYxSSSyCiqQoHD6q3R1',
+        audience: 'https://dev-5lyfu6du.auth0.com/api/v2/'
       }
     }
   },

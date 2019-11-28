@@ -22,6 +22,7 @@ export default {
       dataset: []
     }
   },
+  middleware: 'auth',
   async created () {
     await this.$axios.post('/university').then((res) => {
       this.dataset = res.data.response

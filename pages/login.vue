@@ -6,35 +6,45 @@
     <v-row justify="center">
       <v-card width="750" class="pa-4">
         <div class="row pa-2">
-          <div class="col-6 title">
+          <div class="col-12 title text-center">
             Yönetici Girişi
           </div>
+          <div class="col-12 text-centered">
+            <v-btn
+              :disabled="!valid"
+              color="primary"
+              class="mr-4"
+              @click="login"
+            >
+              giriş
+            </v-btn>
+          </div>
         </div>
-        <v-form class="pa-2">
-          <v-text-field
-            v-model="mail"
-            :rules="emailRules"
-            label="E-mail"
-            required
-          />
-          <v-text-field
-            v-model="password"
-            :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-            :rules="[rules.required]"
-            :type="show1 ? 'text' : 'password'"
-            name="input-10-1"
-            label="Şifre"
-            @click:append="show1 = !show1"
-          />
-          <v-btn
-            :disabled="!valid"
-            color="primary"
-            class="mr-4"
-            @click="login"
-          >
-            giriş
-          </v-btn>
-        </v-form>
+        <!--        <v-form class="pa-2">-->
+        <!--          <v-text-field-->
+        <!--            v-model="mail"-->
+        <!--            :rules="emailRules"-->
+        <!--            label="E-mail"-->
+        <!--            required-->
+        <!--          />-->
+        <!--          <v-text-field-->
+        <!--            v-model="password"-->
+        <!--            :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"-->
+        <!--            :rules="[rules.required]"-->
+        <!--            :type="show1 ? 'text' : 'password'"-->
+        <!--            name="input-10-1"-->
+        <!--            label="Şifre"-->
+        <!--            @click:append="show1 = !show1"-->
+        <!--          />-->
+        <!--          <v-btn-->
+        <!--            :disabled="!valid"-->
+        <!--            color="primary"-->
+        <!--            class="mr-4"-->
+        <!--            @click="login"-->
+        <!--          >-->
+        <!--            giriş-->
+        <!--          </v-btn>-->
+        <!--        </v-form>-->
       </v-card>
     </v-row>
   </v-container>
@@ -68,12 +78,15 @@ export default {
   },
   methods: {
     login () {
-      this.$auth.loginWith('local', {
-        data: {
-          username: this.mail,
-          password: this.password
-        }
-      })
+      this.$auth.loginWith('auth0')
+      // this.$auth.loginWith('local', {
+      //   data: {
+      //     username: this.mail,
+      //     password: this.password
+      //   }
+      // }).then((res) => {
+      //   console.log(res)
+      // })
     }
   }
 }
