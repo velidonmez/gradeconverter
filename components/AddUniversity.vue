@@ -23,7 +23,7 @@
                 autocomplete="off"
               />
             </v-row>
-            <v-row class="pa-2">
+            <v-row v-if="options.type !== 'settings'" class="pa-2">
               <v-select
                 v-model="selectedUniversityType"
                 class="mr-2"
@@ -41,7 +41,7 @@
                 label="Taslak Seçin"
               />
             </v-row>
-            <v-row class="pa-2">
+            <v-row v-if="options.type !== 'settings'" class="pa-2">
               <v-text-field
                 v-model="form.url"
                 label="Yönetmelik URL"

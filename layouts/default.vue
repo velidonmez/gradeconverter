@@ -2,6 +2,7 @@
   <v-app>
     <v-navigation-drawer
       v-model="drawer"
+      width="300"
       permanent
       :mini-variant="miniVariant"
       :clipped="clipped"
@@ -9,9 +10,13 @@
       app
     >
       <v-list>
+        <v-list-item>
+          <img src="../assets/images/logo.png" alt="Üsküdar Üniversitesi Logo" class="logo">
+        </v-list-item>
         <v-list-item
           v-for="(item, i) in items"
           :key="i"
+          color="teal lighten-1"
           :to="item.to"
           router
           exact
@@ -49,22 +54,22 @@ export default {
       items: [
         {
           icon: 'mdi-home',
-          title: 'Giriş',
+          title: 'Not Dönüşümü',
           to: '/'
         },
         {
           icon: 'mdi-plus-box',
-          title: 'Yeni',
+          title: 'Yeni Üniversite',
           to: '/yeni'
         },
         {
-          icon: 'mdi-clipboard-list',
-          title: 'Listele',
+          icon: 'mdi-format-list-numbered',
+          title: 'Tüm Üniversiteler',
           to: '/listele'
         },
         {
-          icon: 'mdi-clipboard-list',
-          title: 'Ayarlar',
+          icon: 'mdi-settings',
+          title: 'Genel Ayarlar',
           to: '/ayarlar'
         }
       ],
@@ -76,3 +81,9 @@ export default {
   }
 }
 </script>
+<style scoped>
+  .logo {
+    width: 200px;
+    margin: 25px auto 0;
+  }
+</style>

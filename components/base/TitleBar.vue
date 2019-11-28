@@ -6,7 +6,7 @@
     class="appBar"
     color="primary"
   >
-    <v-toolbar-title>
+    <v-toolbar-title class="title">
       {{ title }}
     </v-toolbar-title>
   </v-app-bar>
@@ -22,3 +22,8 @@ export default {
 }
 
 </script>
+<style scoped>
+  .title{
+    color: white!important;
+  }
+</style>

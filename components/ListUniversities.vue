@@ -132,8 +132,12 @@ export default {
       }
     }
   },
+  mounted () {
+    this.dataset.forEach((el) => {
+      el.updatedAt = this.$date(el.updatedAt, 'd M y')
+    })
+  },
   methods: {
-    // todo: taslaklarda taslak adı gelmiyor.
     editItem (item) {
       this.editedIndex = this.dataset.indexOf(item)
       this.activeItemGrades = item.harfAraliklariParsed
@@ -175,7 +179,6 @@ export default {
           name: this.editedItem.name,
           harfAraliklari: JSON.stringify(this.activeItemGrades)
         }
-        console.log(dataset)
         this.$axios.post('/updateGradeTemplate', {
           dataset
         })

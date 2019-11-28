@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <v-row>
-      <title-bar title="Ana Sayfa" />
+      <title-bar title="Not Dönüşümü" />
     </v-row>
     <v-row justify="center">
       <convert-grade />
