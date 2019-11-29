@@ -2,12 +2,11 @@
   <v-app class="bg">
     <v-navigation-drawer
       v-model="drawer"
-      width="300"
-      permanent
-      :mini-variant="miniVariant"
-      :clipped="clipped"
-      fixed
+      floating
       app
+      clipped
+      width="320"
+      class="pa-6"
     >
       <v-list>
         <v-list-item class="mb-6">
@@ -68,7 +67,7 @@ export default {
   data () {
     return {
       clipped: false,
-      drawer: false,
+      drawer: null,
       fixed: false,
       adminItems: [
         {

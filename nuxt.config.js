@@ -75,7 +75,8 @@ export default {
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
-    baseURL: 'http://localhost:3000/api/'
+    // baseURL: 'http://localhost:3000/api/'
+    baseURL: 'https://harfnotu.uskudaruniversitesi.edu.tr/api/'
   },
   /*
 ** Server Middleware

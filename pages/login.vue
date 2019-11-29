@@ -16,7 +16,7 @@
               class="mr-4"
               @click="login"
             >
-              giriş
+              Devam Et
             </v-btn>
           </div>
         </div>
