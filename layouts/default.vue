@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app class="bg">
     <v-navigation-drawer
       v-model="drawer"
       width="300"
@@ -118,6 +118,11 @@ export default {
 }
 </script>
 <style scoped>
+  .bg{
+    background-image: url("../assets/images/bg.jpg");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+  }
   .logo {
     width: 200px;
     margin: 25px auto 0;
