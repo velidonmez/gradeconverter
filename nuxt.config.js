@@ -104,15 +104,7 @@ export default {
   },
   auth: {
     strategies: {
-      local: {
-        endpoints: {
-          login: { url: '/sessions', method: 'post', propertyName: 'token' },
-          logout: { url: '/sessions', method: 'delete' },
-          user: { url: '/sessions/user', method: 'get', propertyName: 'data.attributes' }
-        },
-        // tokenRequired: true,
-        tokenType: ''
-      },
+      local: false,
       auth0: {
         domain: 'dev-5lyfu6du.auth0.com',
         client_id: 'J8n7FeOIckiVTuYxSSSyCiqQoHD6q3R1',
