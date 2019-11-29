@@ -44,7 +44,7 @@
                     </v-col>
                     <v-col v-for="(item,index) in activeItemGrades" :key="index" cols="12" sm="6" md="6">
                       <v-text-field v-model="item.harf" label="Harf" />
-                      <v-text-field type="number" v-model="item.value" label="Katsayı" />
+                      <v-text-field v-model="item.value" type="number" label="Katsayı" />
                     </v-col>
                   </v-row>
                 </v-container>
@@ -164,6 +164,9 @@ export default {
       this.editedIndex = -1
     },
     save () {
+      this.editedItem.harfAraliklariParsed.sort((a, b) => {
+        return b.value - a.value
+      })
       if (this.editedIndex > -1 && this.options.type === 'uniList') {
         const dataset = {
           id: this.editedItem.id,
@@ -171,7 +174,6 @@ export default {
           url: this.editedItem.url,
           harfAraliklari: JSON.stringify(this.editedItem.harfAraliklariParsed)
         }
-        console.log(dataset)
         this.$axios.post('/updateUniData', {
           dataset
         })
