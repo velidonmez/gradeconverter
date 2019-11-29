@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize')
 const db = require('../config/database')
 
-const UuGradingSystem = db.define('UuGradingSystem', {
+const UuGradingSystem = db.define('uugradingsystem', {
   okulAdi: {
     type: Sequelize.STRING
   },

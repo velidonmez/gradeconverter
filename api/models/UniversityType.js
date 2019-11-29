@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize')
 const db = require('../config/database')
 
-const UniversityType = db.define('UniversityType', {
+const UniversityType = db.define('universitytype', {
   name: {
     type: Sequelize.STRING
   },

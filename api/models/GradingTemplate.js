@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize')
 const db = require('../config/database')
 
-const GradingTemplate = db.define('GradingTemplate', {
+const GradingTemplate = db.define('gradingtemplate', {
   name: {
     type: Sequelize.STRING
   },
