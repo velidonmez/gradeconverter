@@ -42,7 +42,7 @@ app.post('/insertUniData', async (req, res) => {
 // Update a uni
 app.post('/updateUniData', async (req, res) => {
   const data = req.body.dataset
-  await Universite.update({ okulAdi: data.name, url: data.url },
+  await Universite.update({ okulAdi: data.name, url: data.url, harfAraliklari: data.harfAraliklari },
     { where: { id: data.id } }
   ).then(() => {
     console.log('Update succesful id: ' + data.id)

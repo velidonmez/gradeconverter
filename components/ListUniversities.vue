@@ -44,7 +44,7 @@
                     </v-col>
                     <v-col v-for="(item,index) in activeItemGrades" :key="index" cols="12" sm="6" md="6">
                       <v-text-field v-model="item.harf" label="Harf" />
-                      <v-text-field v-model="item.value" label="Katsayı" />
+                      <v-text-field type="number" v-model="item.value" label="Katsayı" />
                     </v-col>
                   </v-row>
                 </v-container>
@@ -168,8 +168,10 @@ export default {
         const dataset = {
           id: this.editedItem.id,
           name: this.editedItem.name,
-          url: this.editedItem.url
+          url: this.editedItem.url,
+          harfAraliklari: JSON.stringify(this.editedItem.harfAraliklariParsed)
         }
+        console.log(dataset)
         this.$axios.post('/updateUniData', {
           dataset
         })
