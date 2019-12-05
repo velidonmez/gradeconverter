@@ -57,6 +57,11 @@ export default {
   components: {
     TitleBar
   },
+  head () {
+    return {
+      title: 'Üsküdar Üniversitesi - Yönetici Girişi'
+    }
+  },
   data () {
     return {
       middleware: ['auth'],

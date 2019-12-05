@@ -6,9 +6,11 @@
     class="appBar"
     color="primary"
   >
-    <v-toolbar-title class="title">
-      {{ title }}
-    </v-toolbar-title>
+    <div class="col-12">
+      <v-toolbar-title class="text-center title">
+        {{ title }}
+      </v-toolbar-title>
+    </div>
   </v-app-bar>
 </template>
 <script>

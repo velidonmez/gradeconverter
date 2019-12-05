@@ -1,4 +1,4 @@
-<template pageTitle="Tüm Üniversiteler">
+<template>
   <v-container fluid>
     <v-row>
       <title-bar title="Tüm Üniversiteler" />
@@ -16,6 +16,11 @@ export default {
   components: {
     listUniversities,
     TitleBar
+  },
+  head () {
+    return {
+      title: 'Üsküdar Üniversitesi - Listele'
+    }
   },
   middleware: 'auth',
   data () {
@@ -49,7 +54,7 @@ export default {
         })
       })
     }).catch((err) => {
-      console.log(err)
+      throw new Error(err)
     })
     return {
       dataset: list

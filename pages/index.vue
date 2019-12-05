@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <v-row>
-      <title-bar title="Not Dönüşümü" />
+      <title-bar title="Harf Notu Dönüşüm Sistemi" />
     </v-row>
     <v-row justify="center">
       <convert-grade />
@@ -16,6 +16,11 @@ export default {
   components: {
     TitleBar,
     ConvertGrade
+  },
+  head () {
+    return {
+      title: 'Üsküdar Üniversitesi - Harf Notu Dönüşümü'
+    }
   }
 }
 </script>

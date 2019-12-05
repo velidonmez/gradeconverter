@@ -20,6 +20,11 @@ export default {
   components: {
     TitleBar
   },
+  head () {
+    return {
+      title: 'Üsküdar Üniversitesi - Çıkış'
+    }
+  },
   async created () {
     await this.$auth.logout()
   }

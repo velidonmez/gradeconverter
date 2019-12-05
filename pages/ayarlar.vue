@@ -69,6 +69,11 @@ export default {
       tab: null
     }
   },
+  head () {
+    return {
+      title: 'Üsküdar Üniversitesi - Ayarlar'
+    }
+  },
   async asyncData ({ $axios }) {
     const uuGrades = await $axios.post('/uuGradeSystem')
     const gradeTemplates = []
@@ -84,7 +89,7 @@ export default {
         })
       })
     }).catch((err) => {
-      console.log(err)
+      throw new Error(err)
     })
     return {
       editUU: uuGrades.data,

@@ -22,6 +22,11 @@ export default {
       dataset: []
     }
   },
+  head () {
+    return {
+      title: 'Üsküdar Üniversitesi - Yeni'
+    }
+  },
   middleware: 'auth',
   async created () {
     await this.$axios.post('/university').then((res) => {
